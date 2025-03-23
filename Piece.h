@@ -2,7 +2,7 @@
 #define PIECE_H
 
 enum Color {NONE, WHITE, BLACK};
-enum PieceType {EMPTY, KING, QUEEN, BISHOP, KNIGHT, ROOK};
+enum PieceType {EMPTY, KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN};
 
 class Piece
 {
