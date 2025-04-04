@@ -8,7 +8,6 @@ class Move
 public:
     int start_x, start_y, end_x, end_y;
     Piece piece_moved, piece_captured;
-    bool is_castling, is_enpassant;
     PieceType promotion;
 
     Move(int start_x, int start_y, int end_x, int end_y,
