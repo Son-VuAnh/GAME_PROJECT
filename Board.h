@@ -14,7 +14,6 @@ public:
     Piece check_piece_at(int x, int y) const;
     void make_move(const Move& move_);
 
-
 private:
     friend class Rules;
 
