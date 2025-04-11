@@ -1,5 +1,4 @@
 #include "Rules.h"
-#include "Board.h"
 #include <math.h>
 
 bool Rules::in_bounds(int x, int y)
@@ -138,10 +137,6 @@ bool Rules::is_legal_move(const Board& board, const Move& move_)
     int dist_y = move_.end_y - move_.start_y;
     if (dist_x == 0 && dist_y == 0) return false;
 
-    int pawn_direction = (move_.piece_moved.color == WHITE)? -1 : 1;
-    int start_rank = (move_.piece_moved.color == WHITE)? 6 : 1;
-    int promotion_rank = (move_.piece_moved.color == WHITE)? 0 : 7;
-
     if (move_.piece_moved.type == KING)
     {
         if (abs(dist_x) <= 1 && abs(dist_y) <= 1) return true; //normal move
@@ -210,13 +205,17 @@ bool Rules::is_legal_move(const Board& board, const Move& move_)
 
     else if (move_.piece_moved.type == PAWN)
     {
+        int pawn_direction = (move_.piece_moved.color == WHITE)? -1 : 1;
+        int start_rank = (move_.piece_moved.color == WHITE)? 6 : 1;
+        int promotion_rank = (move_.piece_moved.color == WHITE)? 0 : 7;
+
         if (dist_x == 0 && dist_y == pawn_direction && move_.end_y != promotion_rank &&
             board.check_piece_at(move_.end_x, move_.end_y).type == EMPTY) return true; //normal move
 
         if (abs(dist_x) == 1 && dist_y == pawn_direction &&
             board.check_piece_at(move_.end_x, move_.end_y).color != NONE) return true; //normal capture
 
-        if (move_.end_y == promotion_rank && (dist_x == 0 || abs(dist_x) == 1)) return true; //promotion
+        if ((dist_x == 0 || abs(dist_x) == 1) && dist_y == pawn_direction && move_.end_y == promotion_rank) return true; //promotion
 
         if (dist_x == 0 && move_.start_y == start_rank && dist_y == 2*pawn_direction &&
             board.check_piece_at(move_.start_x, move_.start_y + pawn_direction).type == EMPTY &&
@@ -307,16 +306,12 @@ bool Rules::has_legal_moves(const Board& board, Color color)
 
 bool Rules::is_checkmate(const Board& board, Color color)
 {
-    bool king_in_check = king_checked(board, color);
-    bool no_legal_moves = !has_legal_moves(board, color);
-    return king_in_check && no_legal_moves;
+    return king_checked(board, color) && !has_legal_moves(board, color);
 }
 
 bool Rules::is_stalemate(const Board& board, Color color)
 {
-    bool king_in_check = king_checked(board, color);
-    bool no_legal_moves = !has_legal_moves(board, color);
-    return !king_in_check && no_legal_moves;
+    return !king_checked(board, color) && !has_legal_moves(board, color);
 }
 
 bool Rules::insufficient_material(const Board& board)
