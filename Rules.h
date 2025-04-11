@@ -2,8 +2,7 @@
 #define RULES_H
 
 #include "Moves.h"
-
-class Board;
+#include "Board.h"
 
 class Rules
 {
