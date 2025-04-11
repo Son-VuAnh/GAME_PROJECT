@@ -7,16 +7,17 @@ class Rules;
 
 class Board
 {
+friend class Rules;
+
 public:
     Board();
-
     void reset();
+
     Piece check_piece_at(int x, int y) const;
     void make_move(const Move& move_);
 
-private:
-    friend class Rules;
 
+private:
     static const Piece startingBoard[8][8];
 
     Piece board[8][8];
