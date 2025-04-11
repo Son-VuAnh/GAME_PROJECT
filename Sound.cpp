@@ -1,5 +1,7 @@
 #include "Sound.h"
 
+const int VOLUME = 20;
+
 Sound::Sound() : button_sound(nullptr), move_sound(nullptr) {}
 
 Sound::~Sound()
@@ -42,7 +44,7 @@ Sound::~Sound()
 void Sound::init()
 {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-    Mix_Volume(-1, 15);
+    Mix_Volume(-1, VOLUME);
 
     button_sound = Mix_LoadWAV("assets/sound/button_click.wav");
     move_sound = Mix_LoadWAV("assets/sound/move.wav");
