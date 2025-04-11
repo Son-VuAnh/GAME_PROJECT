@@ -15,6 +15,7 @@ public:
     ~Input();
 
     void handle_menu_input(SDL_Event& event);
+    void handle_about_input(SDL_Event& event);
     void handle_ingame_input(SDL_Event& event, Game& game, Board& board);
 
 private:
