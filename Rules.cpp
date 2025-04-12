@@ -112,7 +112,10 @@ bool Rules::king_checked(const Board& board, Color color)
 
 bool Rules::is_legal_move(const Board& board, const Move& move_)
 {
-    // 1.King safety
+    // 1.Only capture piece of diff color
+    if (move_.piece_moved.color == move_.piece_captured.color) return false;
+    
+    // 2.King safety
     Board temp_board = board;
     temp_board.board[move_.end_y][move_.end_x] = move_.piece_moved;
     temp_board.board[move_.start_y][move_.start_x] = Piece(EMPTY, NONE);
@@ -128,9 +131,6 @@ bool Rules::is_legal_move(const Board& board, const Move& move_)
     }
 
     if (king_in_check) return false;
-
-    // 2.Only capture piece of diff color
-    if (move_.piece_moved.color == move_.piece_captured.color) return false;
 
     // 3.Moves of each piece type following chess rules
     int dist_x = move_.end_x - move_.start_x;
@@ -222,10 +222,7 @@ bool Rules::is_legal_move(const Board& board, const Move& move_)
             board.check_piece_at(move_.end_x, move_.end_y).type == EMPTY) return true; // double move at starting rank
 
         if (abs(dist_x) == 1 && dist_y == pawn_direction && can_enpassant(board, move_)) return true; // en passant
-
     }
-
-    else return false;
 
     return false;
 }
