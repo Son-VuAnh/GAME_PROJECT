@@ -116,10 +116,8 @@ void Game::run()
             }
             else
             {
-                if (current_turn == WHITE)
-                    graphics.render_white_turn_circle();
-                else
-                    graphics.render_black_turn_circle();
+                if (current_turn == WHITE) graphics.render_white_turn_circle();
+                else graphics.render_black_turn_circle();
             }
 
             graphics.display();
